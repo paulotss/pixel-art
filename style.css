@@ -37,16 +37,17 @@ section {
 
 #pixel-board {
   margin: auto;
+  width: 210px;
+  height: 210px;
 }
 
 .pixel {
   width: 40px;
   height: 40px;
   border: 1px solid black;
-  display: inline-block;
+  float: left;
   background-color: white;
   cursor: pointer;
-  margin: 2px;
 }
 
 #clear-board {
@@ -60,4 +61,29 @@ footer {
   background-color: #ccc;
   text-align: center;
   margin-top: 20px;
+}
+
+#frames {
+  margin-top: 20px;
+}
+
+#frames > div {
+  margin: 5px;
+  display: inline-block;
+}
+
+#frames div div {
+  width: 5px;
+  height: 5px;
+  float: left;
+  border: none;
+  cursor: none;
+}
+
+#play {
+  display: none;
+}
+
+#reset {
+  display: none;
 }

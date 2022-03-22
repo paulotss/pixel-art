@@ -47,19 +47,17 @@ function changeSizeBox() {
   const board = document.getElementById('pixel-board');
   if (size < 5) {
     size = 5;
-  } else if (size > 50) {
-    size = 50;
+  } else if (size > 15) {
+    size = 15;
   }
   board.innerHTML = '';
-  for (let i = 0; i < size; i += 1) {
-    for (let j = 0; j < size; j += 1) {
-      const newPixel = document.createElement('div');
-      newPixel.classList.add('pixel');
-      newPixel.addEventListener('click', changeColor);
-      board.appendChild(newPixel);
-    }
-    const br = document.createElement('br');
-    board.appendChild(br);
+  board.style.width = `${(size * 40) + (size * 2)}px`;
+  board.style.height = `${(size * 40) + (size * 2)}px`;
+  for (let i = 0; i < (size * size); i += 1) {
+    const newPixel = document.createElement('div');
+    newPixel.classList.add('pixel');
+    newPixel.addEventListener('click', changeColor);
+    board.appendChild(newPixel);
   }
 }
 
@@ -73,3 +71,48 @@ function generateBoard(e) {
 }
 
 document.getElementById('generate-board').addEventListener('click', generateBoard);
+
+let frames = [];
+
+document.getElementById('reset').addEventListener('click', function() {
+  window.location.reload();
+})
+document.getElementById('save').addEventListener('click', newFrame);
+
+function newFrame() {
+  document.getElementById('play').style.display = 'inline';
+  document.getElementById('reset').style.display = 'inline';
+  let save = document.getElementById('pixel-board');
+  frames.push(save.innerHTML);
+  frames.push(save.style.width);
+  let frame = document.createElement('div');
+  let size = document.getElementById('pixel-board').children.length;
+  frame.style.width = `${Math.sqrt(size) * 5}px`;
+  frame.style.height = `${Math.sqrt(size) * 5}px`;
+  frame.innerHTML = save.innerHTML;
+  document.getElementById('frames').appendChild(frame);
+  const sample = document.getElementById('frames').firstChild.children;
+  for(let i = 0; i < sample.length; i += 1) {
+    sample[i].classList.remove('pixel');
+  }
+}
+
+let count = 0;
+let anim;
+
+document.getElementById('play').addEventListener('click', function() {
+  anim = setInterval(animate, 100);
+})
+
+function animate() {
+  if(count < frames.length) {
+    let board = document.getElementById('pixel-board');
+    board.style.width = frames[count + 1];
+    board.style.height = frames[count + 1];
+    board.innerHTML = frames[count];
+    count += 2;
+  } else {
+    clearInterval(anim);
+    count = 0;
+  }
+}
